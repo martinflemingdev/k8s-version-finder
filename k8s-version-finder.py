@@ -1,6 +1,6 @@
 # in k8s, there are 3 possible version types:
 alpha = ['v1alpha1', 'v2alpha1', 'v2alpha2', 'etc']
-beta = ['v1beta1', 'v1beta2', 'v2beta3', 'etc']
+beta = ['v1beta1', 'v1beta3', 'v2beta2', 'etc']
 general_release = ['v1', 'v2', 'v3', 'etc']
     
 # each version (v#) can have a general release, alpha and beta version
@@ -19,5 +19,36 @@ general_release = ['v1', 'v2', 'v3', 'etc']
 # from newest to oldest, the above versions would be
 # 'v2beta1', 'v2alpha1', v1, 'v1alpha1'
 
-def return_newest_versions(versions):
+def return_newest_version_index(versions: list) -> int:
     pass
+
+
+
+# Tests
+
+def test_alphas():
+    assert return_newest_version_index(
+        ['v1alpha1', 'v2alpha2', 'v2alpha1']
+    ) == 1, "Should be 1"
+
+def test_alpha_beta():
+    assert return_newest_version_index(
+        ['v1alpha3', 'v1alpha2', 'v1beta1']
+    ) == 2, "Should be 2"
+
+def test_general_alpha_beta():
+    assert return_newest_version_index(
+        ['v1', 'v1beta2', 'v1alpha3', 'v1beta4']
+    ) == 0, "Should be 0"
+
+def test_multiple():
+    assert return_newest_version_index(
+        ['v3alpha6', 'v2beta2', 'v1alpha7', 'v3beta4', 'v2alpha1', 'v3beta5']
+    ) == 5, "Should be 5"
+
+
+if __name__ == "__main__":
+    test_alphas()
+    test_alpha_beta()
+    test_general_alpha_beta()
+    test_multiple()
