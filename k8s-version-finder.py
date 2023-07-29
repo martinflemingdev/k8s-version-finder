@@ -20,11 +20,14 @@ general_release = ['v1', 'v2', 'v3', 'etc']
 # 'v2beta1', 'v2alpha1', v1, 'v1alpha1'
 
 def return_newest_version_index(versions: list) -> int:
+    # your code here
     pass
 
 
 
-# Tests
+#########################################################
+# Tests : Run this python file to see if the tests pass #             
+#########################################################
 
 def test_alphas():
     assert return_newest_version_index(
