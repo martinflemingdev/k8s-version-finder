@@ -43,7 +43,7 @@ def test_general_alpha_beta():
 
 def test_multiple():
     assert return_newest_version_index(
-        ['v3alpha6', 'v2beta2', 'v1alpha7', 'v3beta4', 'v2alpha1', 'v3beta5']
+        ['v3alpha6', 'v2beta2', 'v1alpha7', 'v3beta4', 'v2alpha1', 'v3beta5', 'v2']
     ) == 5, "Should be 5"
 
 
