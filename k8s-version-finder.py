@@ -22,12 +22,11 @@ general_release = ['v1', 'v2', 'v3', 'etc']
 def return_newest_version_index(versions: list) -> int:
     latest_version_index = 0
     version_check = max(versions)
-    print("v1" > "v1alpha1")
     for i in range(len(versions)):
         if len(versions[i]) == 2 and versions[i][1] >= version_check[1]:
             version_check = versions[i]
             latest_version_index = i
-        if versions[i] == version_check:
+        elif versions[i] == version_check:
            latest_version_index = i
     return latest_version_index
     
