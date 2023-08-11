@@ -1,3 +1,5 @@
+import traceback
+
 # in k8s, there are 3 possible version types:
 alpha = ['v1alpha1', 'v2alpha1', 'v2alpha2', 'etc']
 beta = ['v1beta1', 'v1beta3', 'v2beta2', 'etc']
@@ -37,25 +39,46 @@ def test_alphas():
     assert return_newest_version_index(
         ['v1alpha1', 'v2alpha2', 'v2alpha1']
     ) == 1, "Should be 1"
+    print('passed test_alphas()')
 
 def test_alpha_beta():
     assert return_newest_version_index(
         ['v1alpha3', 'v1alpha2', 'v1beta1']
     ) == 2, "Should be 2"
+    print('passed test_alpha_beta()')
 
 def test_general_alpha_beta():
     assert return_newest_version_index(
         ['v1', 'v1beta2', 'v1alpha3', 'v1beta4']
     ) == 0, "Should be 0"
+    print('passed test_general_alpha_beta()')
 
 def test_multiple():
     assert return_newest_version_index(
-        ['v3alpha6', 'v2beta2', 'v1alpha7', 'v3beta4', 'v2alpha1', 'v3beta5', 'v2']
-    ) == 5, "Should be 5"
+        ['v3alpha6', 'v2beta2', 'v1alpha7', 'v3beta4', 'v2alpha1', 'v3', 'v3beta5', 'v2', 'v1', 'v10']
+    ) == 9, "Should be 9"
+    print('passed test_multiple()')
 
 
 if __name__ == "__main__":
-    test_alphas()
-    test_alpha_beta()
-    test_general_alpha_beta()
-    test_multiple()
+
+    try:
+        test_alphas()
+    except:
+        print(traceback.format_exc())
+    
+    try:
+        test_alpha_beta()
+    except:
+        print(traceback.format_exc())
+    
+    try:
+        test_general_alpha_beta()
+    except:
+        print(traceback.format_exc())
+    
+    try:
+        test_multiple()
+    except:
+        print(traceback.format_exc())
+    
