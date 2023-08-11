@@ -1,4 +1,5 @@
 import traceback
+import re
 
 # in k8s, there are 3 possible version types:
 alpha = ['v1alpha1', 'v2alpha1', 'v2alpha2', 'etc']
@@ -23,9 +24,15 @@ general_release = ['v1', 'v2', 'v3', 'etc']
 
 def return_newest_version_index(versions: list) -> int:
     latest_version_index, version_check = 0, max(versions)
+    version_check_not_v = re.search(r'[^v\d]', version_check)
+    version_check_end_i = version_check_not_v.start() if version_check_not_v else len(version_check) + 1
     for i in range(len(versions)):
-        if len(versions[i]) == 2 and versions[i][1] >= version_check[1]: version_check, latest_version_index = versions[i], i
+        first_letter_not_v = re.search(r'[^v\d]', versions[i])
+        substring_ending_index = first_letter_not_v.start() if first_letter_not_v else len(versions[i])
+        if len(versions[i]) < 6 and int(versions[i][1:substring_ending_index]) >= int(version_check[1:version_check_end_i]): 
+            version_check, latest_version_index = versions[i], i
         elif versions[i] == version_check: latest_version_index = i
+        print(int(version_check[1:version_check_end_i]))
     return latest_version_index
     
 
@@ -55,8 +62,8 @@ def test_general_alpha_beta():
 
 def test_multiple():
     assert return_newest_version_index(
-        ['v3alpha6', 'v2beta2', 'v1alpha7', 'v3beta4', 'v2alpha1', 'v3', 'v3beta5', 'v2', 'v1', 'v10']
-    ) == 9, "Should be 9"
+        ['v103beta2', 'v3alpha6', 'v2beta2', 'v1alpha7', 'v3beta4', 'v2alpha1', 'v3', 'v3beta5','v4', 'v2', 'v1', 'v102']
+    ) == 0, "Should be 0"
     print('passed test_multiple()')
 
 
