@@ -59,18 +59,13 @@ def test_general_alpha_beta():
 
 def test_multiple():
     assert return_newest_version_index(
-        ['v3alpha6', 'v2beta2', 'v1alpha7', 'v3beta4', 'v2alpha1', 'v3', 'v3beta5', 'v2', 'v1']
-    ) == 5, "Should be 5"
+        ['v3alpha6', 'v2beta2', 'v1alpha7', 'v3beta4', 'v2alpha1', 'v3', 'v3beta5', 'v2', 'v1', 'v10']
+    ) == 9, "Should be 9"
     print('passed test_multiple()')
 
 
 if __name__ == "__main__":
 
-    try:
-        test_multiple()
-    except:
-        print(traceback.format_exc())
-    
     try:
         test_alphas()
     except:
@@ -85,3 +80,9 @@ if __name__ == "__main__":
         test_general_alpha_beta()
     except:
         print(traceback.format_exc())
+    
+    try:
+        test_multiple()
+    except:
+        print(traceback.format_exc())
+    
