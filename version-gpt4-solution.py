@@ -1,48 +1,50 @@
 import traceback
 
-def get_latest_version_index(versions):
-    # Define the order of precedence for release types
-    release_order = {'': 3, 'beta': 2, 'alpha': 1}
+def get_newest_version_index(versions):
+    # Define the order of stability levels
+    stability_order = {'alpha': 1, 'beta': 2, '': 3}  # '' represents general release
 
     def version_key(version):
-        # Extract the version number and release type
-        if 'alpha' in version or 'beta' in version:
-            version_num, release_type, release_num = version.split('v')[1].split('alpha') if 'alpha' in version else version.split('v')[1].split('beta')
-        else:
-            version_num = version.split('v')[1]
-            release_type = ''
-            release_num = 0
+        # Extract major version, stability level, and minor version
+        major_version = int(''.join(filter(str.isdigit, version.split('alpha')[0].split('beta')[0])))
+        stability = ''.join(filter(str.isalpha, version[len(str(major_version)):]))
+        minor_version = int(version.split(stability)[1]) if stability and version.split(stability)[1] else 0
+        return (major_version, stability_order[stability], minor_version)
 
-        return (int(version_num), release_order[release_type], int(release_num) if release_num else 0)
+    # Find the index of the newest version
+    newest_index = max(enumerate(versions), key=lambda x: version_key(x[1]))[0]
+    return newest_index
 
-    # Find the index of the latest version
-    latest_index = max(range(len(versions)), key=lambda i: version_key(versions[i]))
-
-    return latest_index
-
+# Test functions
 def test_alphas():
-    assert get_latest_version_index(
+    assert get_newest_version_index(
         ['v1alpha1', 'v2alpha2', 'v2alpha1']
     ) == 1, "Should be 1"
     print('passed test_alphas()')
 
 def test_alpha_beta():
-    assert get_latest_version_index(
+    assert get_newest_version_index(
         ['v1alpha3', 'v1alpha2', 'v1beta1']
     ) == 2, "Should be 2"
     print('passed test_alpha_beta()')
 
 def test_general_alpha_beta():
-    assert get_latest_version_index(
+    assert get_newest_version_index(
         ['v1', 'v1beta2', 'v1alpha3', 'v1beta4']
     ) == 0, "Should be 0"
     print('passed test_general_alpha_beta()')
 
 def test_multiple():
-    assert get_latest_version_index(
+    assert get_newest_version_index(
         ['v103beta2', 'v3alpha6', 'v2beta2', 'v1alpha7', 'v3beta4', 'v2alpha1', 'v3', 'v3beta5','v4', 'v2', 'v1', 'v102']
     ) == 0, "Should be 0"
     print('passed test_multiple()')
+
+# Run tests
+test_alphas()
+test_alpha_beta()
+test_general_alpha_beta()
+test_multiple()
 
 
 if __name__ == "__main__":
